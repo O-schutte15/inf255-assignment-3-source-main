@@ -72,53 +72,128 @@ function displayAnimals(animalArray) {
    * refresh the page. Clicking the buttons won't do anything yet. They
    * start working after TODOs #2 and #3 are complete.
    */
-}
+  ("use strict");
 
-animalArray.forEach(function (animal) {
-  // Create the card and add its CSS class.
-  const card = document.createElement("div");
-  card.classList.add("animal-card");
+  /*
+   * Animal Adoption Board
+   *
+   * Complete the five TODO sections below, in order.
+   *
+   * The TODOs depend on each other, so some of them can't be fully tested
+   * until a later TODO is complete. Each TODO has a note that tells you
+   * what to expect when you test it.
+   *
+   * EXTRA CREDIT: If you build any extra credit features, list them here
+   * (see README.md). Features that are not listed here will not be graded.
+   *
+   *   -
+   *   -
+   */
 
-  // Give adopted animals an extra class for styling.
-  if (animal.adopted) {
-    card.classList.add("adopted");
+  // ------------------------------------
+  // Animal Data
+  // ------------------------------------
+
+  const animals = [
+    { id: 1, name: "Luna", species: "cat", age: 3, adopted: false },
+    { id: 2, name: "Biscuit", species: "dog", age: 7, adopted: true },
+    { id: 3, name: "Pepper", species: "cat", age: 1, adopted: true },
+    { id: 4, name: "Moose", species: "dog", age: 5, adopted: false },
+    { id: 5, name: "Charly", species: "dog", age: 4, adopted: false },
+    { id: 6, name: "Bill", species: "cat", age: 0.5, adopted: true },
+    { id: 7, name: "Chompers", species: "rabbit", age: 0.5, adopted: false },
+    { id: 8, name: "Beowulf", species: "dog", age: 7, adopted: true },
+  ];
+
+  // What the user currently wants to see. The page controls change these.
+  let activeFilter = "all";
+  let activeSort = "default";
+
+  // ------------------------------------
+  // Display Animals
+  // ------------------------------------
+
+  function displayAnimals(animalArray) {
+    const animalList = document.querySelector("#animal-list");
+    animalList.innerHTML = "";
+
+    if (animalArray.length === 0) {
+      const emptyMessage = document.createElement("p");
+      emptyMessage.textContent = "There are no animals to show.";
+      emptyMessage.classList.add("empty-message");
+      animalList.appendChild(emptyMessage);
+      return;
+    }
+
+    /*
+     * TODO #1: Display the animal cards.
+     *
+     * Use forEach() to loop through animalArray. For each animal:
+     *
+     * 1. Create an element for the card and add the "animal-card" class.
+     * 2. If the animal is adopted, also add the "adopted" class.
+     * 3. Create elements showing its name, species, age, and status
+     *    ("Available" or "Adopted").
+     * 4. Create a button labeled "Adopt" or "Return".
+     * 5. Add a click listener to the button. Its callback should call
+     *    toggleAdoption() and pass the animal's id.
+     * 6. Append the completed card to animalList.
+     *
+     * Required comment: above your click listener, explain in your own words
+     * WHEN its callback runs, and HOW it knows which animal to change.
+     *
+     * Note: When this TODO is complete, the eight cards will appear when you
+     * refresh the page. Clicking the buttons won't do anything yet. They
+     * start working after TODOs #2 and #3 are complete.
+     */
   }
 
-  // Create a heading for the animal's name.
-  const name = document.createElement("h2");
-  name.textContent = animal.name;
-  card.appendChild(name);
+  animalArray.forEach(function (animal) {
+    // Create the card and add its CSS class.
+    const card = document.createElement("div");
+    card.classList.add("animal-card");
 
-  // Display the animal's species.
-  const species = document.createElement("p");
-  species.textContent = `Species: ${animal.species}`;
-  card.appendChild(species);
+    // Give adopted animals an extra class for styling.
+    if (animal.adopted) {
+      card.classList.add("adopted");
+    }
 
-  // Display the animal's age.
-  const age = document.createElement("p");
-  age.textContent = `Age: ${animal.age}`;
-  card.appendChild(age);
+    // Create a heading for the animal's name.
+    const name = document.createElement("h2");
+    name.textContent = animal.name;
+    card.appendChild(name);
 
-  // Show whether the animal is available or adopted.
-  const status = document.createElement("p");
-  status.textContent = animal.adopted ? "Adopted" : "Available";
-  card.appendChild(status);
+    // Display the animal's species.
+    const species = document.createElement("p");
+    species.textContent = `Species: ${animal.species}`;
+    card.appendChild(species);
 
-  // Create a button based on the animal's current adoption status.
-  const button = document.createElement("button");
-  button.textContent = animal.adopted ? "Return" : "Adopt";
+    // Display the animal's age.
+    const age = document.createElement("p");
+    age.textContent = `Age: ${animal.age}`;
+    card.appendChild(age);
 
-  // The callback runs when the user clicks this button. It passes this
-  // animal's id so the program knows which animal to update.
-  button.addEventListener("click", function () {
-    toggleAdoption(animal.id);
+    // Show whether the animal is available or adopted.
+    const status = document.createElement("p");
+    status.textContent = animal.adopted ? "Adopted" : "Available";
+    card.appendChild(status);
+
+    // Create a button based on the animal's current adoption status.
+    const button = document.createElement("button");
+    button.textContent = animal.adopted ? "Return" : "Adopt";
+
+    // The callback runs when the user clicks this button. It passes this
+    // animal's id so the program knows which animal to update.
+    button.addEventListener("click", function () {
+      toggleAdoption(animal.id);
+    });
+
+    card.appendChild(button);
+
+    // Add the finished card to the animal list on the page.
+    animalList.appendChild(card);
   });
-
-  card.appendChild(button);
-
-  // Add the finished card to the animal list on the page.
-  animalList.appendChild(card);
-});
+}
 
 // ------------------------------------
 // Adopt or Return an Animal
