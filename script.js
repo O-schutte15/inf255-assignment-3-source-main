@@ -21,14 +21,14 @@
 // ------------------------------------
 
 const animals = [
-	{ id: 1, name: "Luna", species: "cat", age: 3, adopted: false },
-	{ id: 2, name: "Biscuit", species: "dog", age: 7, adopted: true },
-	{ id: 3, name: "Pepper", species: "cat", age: 1, adopted: true },
-	{ id: 4, name: "Moose", species: "dog", age: 5, adopted: false },
-	{ id: 5, name: "Charly", species: "dog", age: 4, adopted: false },
-	{ id: 6, name: "Bill", species: "cat", age: 0.5, adopted: true },
-	{ id: 7, name: "Chompers", species: "rabbit", age: 0.5, adopted: false },
-	{ id: 8, name: "Beowulf", species: "dog", age: 7, adopted: true },
+  { id: 1, name: "Luna", species: "cat", age: 3, adopted: false },
+  { id: 2, name: "Biscuit", species: "dog", age: 7, adopted: true },
+  { id: 3, name: "Pepper", species: "cat", age: 1, adopted: true },
+  { id: 4, name: "Moose", species: "dog", age: 5, adopted: false },
+  { id: 5, name: "Charly", species: "dog", age: 4, adopted: false },
+  { id: 6, name: "Bill", species: "cat", age: 0.5, adopted: true },
+  { id: 7, name: "Chompers", species: "rabbit", age: 0.5, adopted: false },
+  { id: 8, name: "Beowulf", species: "dog", age: 7, adopted: true },
 ];
 
 // What the user currently wants to see. The page controls change these.
@@ -40,57 +40,103 @@ let activeSort = "default";
 // ------------------------------------
 
 function displayAnimals(animalArray) {
-	const animalList = document.querySelector("#animal-list");
-	animalList.innerHTML = "";
+  const animalList = document.querySelector("#animal-list");
+  animalList.innerHTML = "";
 
-	if (animalArray.length === 0) {
-		const emptyMessage = document.createElement("p");
-		emptyMessage.textContent = "There are no animals to show.";
-		emptyMessage.classList.add("empty-message");
-		animalList.appendChild(emptyMessage);
-		return;
-	}
+  if (animalArray.length === 0) {
+    const emptyMessage = document.createElement("p");
+    emptyMessage.textContent = "There are no animals to show.";
+    emptyMessage.classList.add("empty-message");
+    animalList.appendChild(emptyMessage);
+    return;
+  }
 
-	/*
-	 * TODO #1: Display the animal cards.
-	 *
-	 * Use forEach() to loop through animalArray. For each animal:
-	 *
-	 * 1. Create an element for the card and add the "animal-card" class.
-	 * 2. If the animal is adopted, also add the "adopted" class.
-	 * 3. Create elements showing its name, species, age, and status
-	 *    ("Available" or "Adopted").
-	 * 4. Create a button labeled "Adopt" or "Return".
-	 * 5. Add a click listener to the button. Its callback should call
-	 *    toggleAdoption() and pass the animal's id.
-	 * 6. Append the completed card to animalList.
-	 *
-	 * Required comment: above your click listener, explain in your own words
-	 * WHEN its callback runs, and HOW it knows which animal to change.
-	 *
-	 * Note: When this TODO is complete, the eight cards will appear when you
-	 * refresh the page. Clicking the buttons won't do anything yet. They
-	 * start working after TODOs #2 and #3 are complete.
-	 */
+  /*
+   * TODO #1: Display the animal cards.
+   *
+   * Use forEach() to loop through animalArray. For each animal:
+   *
+   * 1. Create an element for the card and add the "animal-card" class.
+   * 2. If the animal is adopted, also add the "adopted" class.
+   * 3. Create elements showing its name, species, age, and status
+   *    ("Available" or "Adopted").
+   * 4. Create a button labeled "Adopt" or "Return".
+   * 5. Add a click listener to the button. Its callback should call
+   *    toggleAdoption() and pass the animal's id.
+   * 6. Append the completed card to animalList.
+   *
+   * Required comment: above your click listener, explain in your own words
+   * WHEN its callback runs, and HOW it knows which animal to change.
+   *
+   * Note: When this TODO is complete, the eight cards will appear when you
+   * refresh the page. Clicking the buttons won't do anything yet. They
+   * start working after TODOs #2 and #3 are complete.
+   */
 }
+
+animalArray.forEach(function (animal) {
+  // Create the card and add its CSS class.
+  const card = document.createElement("div");
+  card.classList.add("animal-card");
+
+  // Give adopted animals an extra class for styling.
+  if (animal.adopted) {
+    card.classList.add("adopted");
+  }
+
+  // Create a heading for the animal's name.
+  const name = document.createElement("h2");
+  name.textContent = animal.name;
+  card.appendChild(name);
+
+  // Display the animal's species.
+  const species = document.createElement("p");
+  species.textContent = `Species: ${animal.species}`;
+  card.appendChild(species);
+
+  // Display the animal's age.
+  const age = document.createElement("p");
+  age.textContent = `Age: ${animal.age}`;
+  card.appendChild(age);
+
+  // Show whether the animal is available or adopted.
+  const status = document.createElement("p");
+  status.textContent = animal.adopted ? "Adopted" : "Available";
+  card.appendChild(status);
+
+  // Create a button based on the animal's current adoption status.
+  const button = document.createElement("button");
+  button.textContent = animal.adopted ? "Return" : "Adopt";
+
+  // The callback runs when the user clicks this button. It passes this
+  // animal's id so the program knows which animal to update.
+  button.addEventListener("click", function () {
+    toggleAdoption(animal.id);
+  });
+
+  card.appendChild(button);
+
+  // Add the finished card to the animal list on the page.
+  animalList.appendChild(card);
+});
 
 // ------------------------------------
 // Adopt or Return an Animal
 // ------------------------------------
 
 function toggleAdoption(animalId) {
-	/*
-	 * TODO #2: Toggle the animal's adoption status.
-	 *
-	 * 1. Use find() to locate the animal whose id matches animalId.
-	 * 2. If there is no matching animal, return from the function.
-	 * 3. Change adopted to the opposite of its current value.
-	 * 4. Call updateDisplay() to redraw the current view.
-	 *
-	 * Note: updateDisplay() is empty until you complete TODO #3. Until then,
-	 * clicking a button changes the animal's adopted value, but the page
-	 * won't redraw, so it will look like nothing happened.
-	 */
+  /*
+   * TODO #2: Toggle the animal's adoption status.
+   *
+   * 1. Use find() to locate the animal whose id matches animalId.
+   * 2. If there is no matching animal, return from the function.
+   * 3. Change adopted to the opposite of its current value.
+   * 4. Call updateDisplay() to redraw the current view.
+   *
+   * Note: updateDisplay() is empty until you complete TODO #3. Until then,
+   * clicking a button changes the animal's adopted value, but the page
+   * won't redraw, so it will look like nothing happened.
+   */
 }
 
 // ------------------------------------
@@ -98,26 +144,26 @@ function toggleAdoption(animalId) {
 // ------------------------------------
 
 function updateDisplay() {
-	/*
-	 * TODO #3: Prepare the animals the user wants to see.
-	 *
-	 * 1. Begin with a copy of the animals array (use slice()).
-	 * 2. If activeFilter is "available", use filter() to keep animals
-	 *    whose adopted value is false.
-	 * 3. If activeFilter is "adopted", use filter() to keep animals
-	 *    whose adopted value is true.
-	 * 4. If activeSort is "name", sort the result alphabetically by name.
-	 * 5. If activeSort is "age", sort the result from youngest to oldest.
-	 * 6. Pass the finished array to displayAnimals().
-	 * 7. Call updateCount().
-	 *
-	 * Required comment: explain in your own words why you sort a copy
-	 * instead of sorting the animals array itself.
-	 *
-	 * Note: When this TODO is complete, the Adopt and Return buttons will
-	 * work. The filter buttons and sort menu won't do anything until TODO #5
-	 * is complete, because nothing changes activeFilter or activeSort yet.
-	 */
+  /*
+   * TODO #3: Prepare the animals the user wants to see.
+   *
+   * 1. Begin with a copy of the animals array (use slice()).
+   * 2. If activeFilter is "available", use filter() to keep animals
+   *    whose adopted value is false.
+   * 3. If activeFilter is "adopted", use filter() to keep animals
+   *    whose adopted value is true.
+   * 4. If activeSort is "name", sort the result alphabetically by name.
+   * 5. If activeSort is "age", sort the result from youngest to oldest.
+   * 6. Pass the finished array to displayAnimals().
+   * 7. Call updateCount().
+   *
+   * Required comment: explain in your own words why you sort a copy
+   * instead of sorting the animals array itself.
+   *
+   * Note: When this TODO is complete, the Adopt and Return buttons will
+   * work. The filter buttons and sort menu won't do anything until TODO #5
+   * is complete, because nothing changes activeFilter or activeSort yet.
+   */
 }
 
 // ------------------------------------
@@ -125,21 +171,21 @@ function updateDisplay() {
 // ------------------------------------
 
 function updateCount() {
-	/*
-	 * TODO #4: Show how many animals are still available.
-	 *
-	 * 1. Select the #animal-count paragraph.
-	 * 2. Use filter() on the full animals array (not just the visible
-	 *    cards) to find the animals that are not adopted.
-	 * 3. Set the paragraph's textContent to a message like:
-	 *
-	 *      4 of 8 animals are available for adoption.
-	 *
-	 *    Calculate both numbers. Do not type 4 or 8 directly.
-	 *
-	 * Note: When this TODO is complete, the message appears when the page
-	 * opens and changes every time an animal is adopted or returned.
-	 */
+  /*
+   * TODO #4: Show how many animals are still available.
+   *
+   * 1. Select the #animal-count paragraph.
+   * 2. Use filter() on the full animals array (not just the visible
+   *    cards) to find the animals that are not adopted.
+   * 3. Set the paragraph's textContent to a message like:
+   *
+   *      4 of 8 animals are available for adoption.
+   *
+   *    Calculate both numbers. Do not type 4 or 8 directly.
+   *
+   * Note: When this TODO is complete, the message appears when the page
+   * opens and changes every time an animal is adopted or returned.
+   */
 }
 
 // ------------------------------------
