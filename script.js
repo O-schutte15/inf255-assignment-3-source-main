@@ -295,6 +295,16 @@ function updateDisplay() {
 // ------------------------------------
 
 function updateCount() {
+  // Find the paragraph where the available count will appear.
+  const animalCount = document.querySelector("#animal-count");
+
+  // Count all animals that are not adopted.
+  const availableAnimals = animals.filter(function (animal) {
+    return animal.adopted === false;
+  });
+
+  // Display the available count and the total number of animals.
+  animalCount.textContent = `${availableAnimals.length} of ${animals.length} animals are available for adoption.`;
   /*
    * TODO #4: Show how many animals are still available.
    *
@@ -320,7 +330,29 @@ const allButton = document.querySelector("#show-all");
 const availableButton = document.querySelector("#show-available");
 const adoptedButton = document.querySelector("#show-adopted");
 const sortSelect = document.querySelector("#sort-animals");
+// Show all animals when the All button is clicked.
+allButton.addEventListener("click", function () {
+  activeFilter = "all";
+  updateDisplay();
+});
 
+// Show only animals that are available for adoption.
+availableButton.addEventListener("click", function () {
+  activeFilter = "available";
+  updateDisplay();
+});
+
+// Show only animals that have already been adopted.
+adoptedButton.addEventListener("click", function () {
+  activeFilter = "adopted";
+  updateDisplay();
+});
+
+// Update the sorting when the user selects a new option.
+sortSelect.addEventListener("change", function () {
+  activeSort = sortSelect.value;
+  updateDisplay();
+});
 /*
  * TODO #5: Connect the controls to updateDisplay().
  *
