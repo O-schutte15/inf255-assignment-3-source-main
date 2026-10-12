@@ -233,6 +233,41 @@ function toggleAdoption(animalId) {
 // ------------------------------------
 
 function updateDisplay() {
+  // Make a copy so we don't change the original animals array.
+  let displayedAnimals = animals.slice();
+
+  // Filter to show only animals available for adoption.
+  if (activeFilter === "available") {
+    displayedAnimals = displayedAnimals.filter(function (animal) {
+      return animal.adopted === false;
+    });
+  }
+
+  // Filter to show only animals that have been adopted.
+  if (activeFilter === "adopted") {
+    displayedAnimals = displayedAnimals.filter(function (animal) {
+      return animal.adopted === true;
+    });
+  }
+
+  // Sort the animals alphabetically by name.
+  if (activeSort === "name") {
+    displayedAnimals.sort(function (a, b) {
+      return a.name.localeCompare(b.name);
+    });
+  }
+
+  // Sort the animals from youngest to oldest.
+  if (activeSort === "age") {
+    displayedAnimals.sort(function (a, b) {
+      return a.age - b.age;
+    });
+  }
+
+  // Display the filtered and sorted animals, then update the count.
+  displayAnimals(displayedAnimals);
+  updateCount();
+
   /*
    * TODO #3: Prepare the animals the user wants to see.
    *
