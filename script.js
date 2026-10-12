@@ -200,19 +200,33 @@ function displayAnimals(animalArray) {
 // ------------------------------------
 
 function toggleAdoption(animalId) {
-  /*
-   * TODO #2: Toggle the animal's adoption status.
-   *
-   * 1. Use find() to locate the animal whose id matches animalId.
-   * 2. If there is no matching animal, return from the function.
-   * 3. Change adopted to the opposite of its current value.
-   * 4. Call updateDisplay() to redraw the current view.
-   *
-   * Note: updateDisplay() is empty until you complete TODO #3. Until then,
-   * clicking a button changes the animal's adopted value, but the page
-   * won't redraw, so it will look like nothing happened.
-   */
+  // ------------------------------------
+  // Adopt or Return an Animal
+  // ------------------------------------
+  const animal = animals.find(function (animal) {
+    return animal.id === animalId;
+  });
+
+  if (!animal) {
+    return;
+  }
+
+  animal.adopted = !animal.adopted;
+
+  updateDisplay();
 }
+/*
+ * TODO #2: Toggle the animal's adoption status.
+ *
+ * 1. Use find() to locate the animal whose id matches animalId.
+ * 2. If there is no matching animal, return from the function.
+ * 3. Change adopted to the opposite of its current value.
+ * 4. Call updateDisplay() to redraw the current view.
+ *
+ * Note: updateDisplay() is empty until you complete TODO #3. Until then,
+ * clicking a button changes the animal's adopted value, but the page
+ * won't redraw, so it will look like nothing happened.
+ */
 
 // ------------------------------------
 // Filter, Sort, and Update
